@@ -21,11 +21,23 @@ with open(json_path) as f:
 # Map name → marks
 name_to_marks = {entry["name"]: entry["marks"] for entry in student_data}
 
+
 @app.get("/api")
-def get_marks(request: Request):
+def get_marks_api(request: Request):
     names = request.query_params.getlist("name")
     if not names:
         single_name = request.query_params.get("name")
         if single_name:
             names = [single_name]
     return {"marks": [name_to_marks.get(name, None) for name in names]}
+
+
+@app.get("/")
+def get_marks_root(request: Request):
+    names = request.query_params.getlist("name")
+    if not names:
+        single_name = request.query_params.get("name")
+        if single_name:
+            names = [single_name]
+    return {"marks": [name_to_marks.get(name, None) for name in names]}
+
