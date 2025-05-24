@@ -5,7 +5,7 @@ import os
 
 app = FastAPI()
 
-# Enable CORS (allow all origins)
+# Enable CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -18,10 +18,10 @@ json_path = os.path.join(os.path.dirname(__file__), "q-vercel-python.json")
 with open(json_path) as f:
     student_data = json.load(f)
 
-# Map: name -> marks
+# Map name → marks
 name_to_marks = {entry["name"]: entry["marks"] for entry in student_data}
 
-@app.get("/")
+@app.get("/api")
 def get_marks(request: Request):
     names = request.query_params.getlist("name")
     if not names:
